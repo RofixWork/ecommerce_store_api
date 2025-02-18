@@ -16,7 +16,7 @@ const errorHnadlerMiddleware = (error, request, response, next) => {
     }
 
     if(error.code && error.code === 11000) {
-        customError.msg = `Duplicate value entered ${Object.keys(error['keyValue'])}, please enter another value...`;
+        customError.msg = `This ${Object.keys(error['keyValue'])} is already registered. Please try another one.`;
         customError.statusCode = StatusCodes.CONFLICT;
     }
 
@@ -30,7 +30,7 @@ const errorHnadlerMiddleware = (error, request, response, next) => {
         customError.msg = `Invalid ${JSON.stringify(error.value)} id, please provide a valid id...`;
         customError.statusCode = StatusCodes.NOT_FOUND;
     }
-    return response.status(customError.statusCode).json({msg: customError})
+    return response.status(customError.statusCode).json({msg: customError.msg})
 }
 
 export default errorHnadlerMiddleware;
