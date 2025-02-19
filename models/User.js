@@ -28,6 +28,7 @@ const UserSchema = new Schema(
       minlength: [8, "minimum 8 characters required..."],
       trim: true,
       maxlength: [255, "maximum 255 characters allowed"],
+      select: false
     },
     role: {
       type: Schema.Types.String,
@@ -42,12 +43,11 @@ const UserSchema = new Schema(
             return jwt.sign({
                 id: this._id,
                 name: this.name,
-                email: this.email,
                 role: this.role,
             }, process.env.JWT_SECRET, {expiresIn: process.env.JWT_LIFETIME})
         },
-        async isPasswordValid(hash) {
-            await bcrypt.compare(this.password, hash);
+        async isPasswordValid(password) {
+            return await bcrypt.compare(password, this.password);
         }
     }
   }

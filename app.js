@@ -1,13 +1,13 @@
 // imports
 import 'express-async-errors';
-import dotenv from 'dotenv';
-dotenv.config()
+import "dotenv/config";
 import express from 'express';
 import morgan from 'morgan';
 import notFoundMiddleware from './middlewares/not-found.js';
 import errorHnadlerMiddleware from './middlewares/error-handler.js';
 import connectDB from './db/connect.js';
 import authRouter from './routes/auth.routes.js';
+import cookieParser from 'cookie-parser';
 // imports
 
 const app = express();
@@ -15,8 +15,12 @@ const app = express();
 //middlewares
 app.use(express.json());
 app.use(morgan('dev'));
+app.use(cookieParser(process.env.JWT_SECRET));
 
-app.get('/', (req, res) => {
+app.get('/api/v1/', (req, res) => {
+        console.log(req.signedCookies);
+            
+    
     res.send('Hello World!');
 })
 
