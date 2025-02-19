@@ -1,6 +1,6 @@
 import { StatusCodes } from "http-status-codes";
 import User from "../models/User.js";
-import {BadRequest, Unauthorized} from '../errors/index.js'
+import { BadRequest, Unauthorized } from "../errors/index.js";
 /**
  * @typedef {import('express').Request} RequestType
  * @typedef {import('express').Response} ResponseType
@@ -33,7 +33,7 @@ class AuthController {
       httpOnly: true,
       expires: new Date(Date.now() + cookieLifetime),
       secure: process.env.NODE_ENV === "production",
-      signed: true
+      signed: true,
     });
   }
   /**
@@ -43,19 +43,19 @@ class AuthController {
    * @returns {ResponseType}
    */
   static async login(request, response) {
-    const {email, password} = request.body;
-    if(!email?.trim() || !password?.trim()) {
+    const { email, password } = request.body;
+    if (!email?.trim() || !password?.trim()) {
       throw new BadRequest("Email and password are required");
     }
-    
+
     const user = await User.findOne({ email }).select("+password");
 
-    if(!user) {
+    if (!user) {
       throw new Unauthorized("Invalid email or password");
     }
-    
+
     const isPasswordValid = await user.isPasswordValid(password);
-    if(!isPasswordValid) {
+    if (!isPasswordValid) {
       throw new Unauthorized("Invalid email or password");
     }
 
@@ -73,7 +73,14 @@ class AuthController {
    * @returns {ResponseType}
    */
   static async logout(request, response) {
-    return response.send("logout");
+    response.clearCookie("token", {
+      httpOnly: true,
+      signed: true,
+      secure: process.env.NODE_ENV === "production",
+    });
+    return response.status(StatusCodes.OK).json({
+      message: "Logged out successfully",
+    });
   }
 }
 
