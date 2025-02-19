@@ -8,6 +8,8 @@ import errorHnadlerMiddleware from './middlewares/error-handler.js';
 import connectDB from './db/connect.js';
 import authRouter from './routes/auth.routes.js';
 import cookieParser from 'cookie-parser';
+import cors from 'cors'
+import userRouter from './routes/user.routes.js';
 // imports
 
 const app = express();
@@ -15,6 +17,10 @@ const app = express();
 //middlewares
 app.use(express.json());
 app.use(morgan('dev'));
+app.use(cors({
+    origin: "http://localhost:5173",
+    credentials: true
+}));  // Enable all CORS requests.
 app.use(cookieParser(process.env.JWT_SECRET));
 
 app.get('/api/v1/', (req, res) => {
@@ -26,6 +32,8 @@ app.get('/api/v1/', (req, res) => {
 
 //auth router
 app.use("/api/v1/auth/", authRouter);
+// user routes
+app.use('/api/v1/users', userRouter);
 
 //custom middlewares
 app.use(notFoundMiddleware);

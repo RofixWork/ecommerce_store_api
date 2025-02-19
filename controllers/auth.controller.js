@@ -34,6 +34,7 @@ class AuthController {
       expires: new Date(Date.now() + cookieLifetime),
       secure: process.env.NODE_ENV === "production",
       signed: true,
+      // sameSite:"none"
     });
   }
   /**
