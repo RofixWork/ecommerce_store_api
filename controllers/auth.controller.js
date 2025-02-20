@@ -16,7 +16,7 @@ class AuthController {
     const { name, email, password } = request.body;
     const user = await User.create({ name, email, password });
     const token = user.createJWT();
-    AuthController.#attachCookiesToResponse(response, token);
+    AuthController.attachCookiesToResponse(response, token);
     return response.status(StatusCodes.CREATED).json({
       user: { id: user.id, name: user.name, role: user.role },
     });
@@ -27,7 +27,7 @@ class AuthController {
    * @param {String} token
    * @returns {void}
    */
-  static #attachCookiesToResponse(response, token) {
+  static attachCookiesToResponse(response, token) {
     const cookieLifetime = 1000 * 60 * 60 * 24;
     response.cookie("token", token, {
       httpOnly: true,
@@ -61,7 +61,7 @@ class AuthController {
     }
 
     const token = user.createJWT();
-    AuthController.#attachCookiesToResponse(response, token);
+    AuthController.attachCookiesToResponse(response, token);
     return response.status(StatusCodes.OK).json({
       user: { id: user.id, name: user.name, role: user.role },
     });
