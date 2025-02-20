@@ -19,9 +19,7 @@ class UserController {
      * @param {import('express').Response} response
      * @returns {import('express').Response}
      */
-     static async get(request, response) {
-        console.log(request.user);
-        
+     static async get(request, response) {        
         const {id: userId} = request.params;
         const user = await User.findById(userId);
         if(!user) {

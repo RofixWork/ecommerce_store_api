@@ -10,7 +10,7 @@ import { Unauthorized, ForbiddenError } from "../errors/index.js";
 const authenticateUser = (request, response, next) => {
   const { token } = request.signedCookies;
   if (!token) {
-    throw new Unauthorized("Invalid token");
+    throw new Unauthorized("Authentication required: Invalid or expired token. Please log in again.");
   }
 
   try {
@@ -18,7 +18,7 @@ const authenticateUser = (request, response, next) => {
     request.user = { id, name, role };
     next();
   } catch (error) {
-    throw new Unauthorized("Invalid token");
+    throw new Unauthorized("Authentication required: Invalid or expired token. Please log in again.");
   }
 };
 
