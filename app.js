@@ -10,6 +10,8 @@ import authRouter from './routes/auth.routes.js';
 import cookieParser from 'cookie-parser';
 import cors from 'cors'
 import userRouter from './routes/user.routes.js';
+import productRouter from './routes/product.routes.js';
+import fileUpload from 'express-fileupload';
 // imports
 
 const app = express();
@@ -22,6 +24,7 @@ app.use(cors({
     credentials: true
 }));  // Enable all CORS requests.
 app.use(cookieParser(process.env.JWT_SECRET));
+app.use(fileUpload());  // middleware to handle file uploads.
 
 app.get('/api/v1/', (req, res) => {
         console.log(req.signedCookies);
@@ -34,6 +37,8 @@ app.get('/api/v1/', (req, res) => {
 app.use("/api/v1/auth/", authRouter);
 // user routes
 app.use('/api/v1/users', userRouter);
+// ?product routes
+app.use('/api/v1/products', productRouter);
 
 //custom middlewares
 app.use(notFoundMiddleware);

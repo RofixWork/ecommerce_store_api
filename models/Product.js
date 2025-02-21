@@ -12,7 +12,7 @@ const ProductSchema = new Schema(
     },
     description: {
       type: Schema.Types.String,
-      required: [true, "please provide product name"],
+      required: [true, "please provide product description"],
       minlength: [20, "minimum 20 characters required..."],
       trim: true,
       lowercase: true,
@@ -35,6 +35,7 @@ const ProductSchema = new Schema(
         "home",
         "health",
         "beauty",
+        "office",
         "kitchen",
         "outdoor",
         "sports",
@@ -44,7 +45,7 @@ const ProductSchema = new Schema(
         "books",
         "stationery",
         "pet",
-        "other",
+        "bedroom",
       ],
     },
     company: {
@@ -61,7 +62,6 @@ const ProductSchema = new Schema(
     },
     colors: {
       type: [Schema.Types.String],
-      required: true,
     },
     user: {
       type: Schema.Types.ObjectId,
