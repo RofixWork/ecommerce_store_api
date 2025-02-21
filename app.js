@@ -12,6 +12,7 @@ import cors from 'cors'
 import userRouter from './routes/user.routes.js';
 import productRouter from './routes/product.routes.js';
 import fileUpload from 'express-fileupload';
+import reviewRouter from './routes/review.routes.js';
 // imports
 
 const app = express();
@@ -39,7 +40,8 @@ app.use("/api/v1/auth/", authRouter);
 app.use('/api/v1/users', userRouter);
 // ?product routes
 app.use('/api/v1/products', productRouter);
-
+//reviews
+app.use('/api/v1/reviews', reviewRouter);
 //custom middlewares
 app.use(notFoundMiddleware);
 app.use(errorHnadlerMiddleware);
