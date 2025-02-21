@@ -84,8 +84,18 @@ const ProductSchema = new Schema(
   },
   {
     timestamps: true,
+    toJSON: {virtuals: true},
+    toObject: {virtuals: true},
   }
 );
+
+ProductSchema.virtual('reviews', {
+  ref: 'Review',
+  localField: "_id",
+  foreignField: 'product',
+  justOne: false,
+  // match: {rating: {$lte: 3}}
+});
 
 /**
  * @type {Model} Product

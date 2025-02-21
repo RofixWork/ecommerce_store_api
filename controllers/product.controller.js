@@ -15,7 +15,7 @@ class ProductController {
      * @returns {ResponseType}
      */
     static async all(request, response) {
-        const products = await Product.find()
+        const products = await Product.find().populate('reviews')
         return response.send({nbHits:products.length, products})
     }
 
@@ -27,7 +27,7 @@ class ProductController {
      */
     static async get(request, response) {
         const {id} = request.params;
-        const product = await Product.findById(id)
+        const product = await Product.findById(id).populate('reviews');
         if (!product) {
             throw new NotFound('Product not found')
         }

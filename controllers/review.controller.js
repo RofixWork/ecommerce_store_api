@@ -14,7 +14,7 @@ class ReviewController {
    * @returns {ResponseType}
    */
   static async all(request, response) {
-    const reviews = await Review.find({});
+    const reviews = await Review.find({}).populate({path: 'product', select: 'name price company'}).populate({path: 'user', select: '_id name'});
 
     return response
       .status(StatusCodes.OK)
