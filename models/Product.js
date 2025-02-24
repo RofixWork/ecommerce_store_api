@@ -81,6 +81,10 @@ const ProductSchema = new Schema(
       type: Schema.Types.Number,
       default: 0,
     },
+    numOfReviews: {
+      type: Schema.Types.Number,
+      default: 0,
+    }
   },
   {
     timestamps: true,
@@ -96,6 +100,11 @@ ProductSchema.virtual('reviews', {
   justOne: false,
   // match: {rating: {$lte: 3}}
 });
+
+ProductSchema.pre('deleteOne', {query:false, document: true}, async function(next) {
+  await this.model('Review').deleteMany({product: this._id});
+  next();
+})
 
 /**
  * @type {Model} Product

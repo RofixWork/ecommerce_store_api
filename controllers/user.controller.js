@@ -68,7 +68,6 @@ class UserController {
         
         const {id: userId} = request.user;
         const {old_password, new_password} = request.body;
-        console.log(request.user);
 
         if(!old_password?.trim() || !new_password?.trim()) {
             throw new BadRequest("Old and new password are required");

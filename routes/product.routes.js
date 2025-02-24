@@ -21,4 +21,6 @@ productRouter
   .patch(authMiddlewares, ProductController.update)
   .delete(authMiddlewares, ProductController.delete);
 
+productRouter.route("/:id/reviews").get(ProductController.product_reviews);
+
 export default productRouter;

@@ -3,6 +3,7 @@ import Product from '../models/Product.js';
 import {NotFound, BadRequest} from '../errors/index.js';
 import path from 'path';
 import {mkdir, access} from 'fs/promises'
+import Review from '../models/Review.js';
 /**
  * @typedef {import('express').Request} RequestType
  * @typedef {import('express').Response} ResponseType
@@ -115,14 +116,30 @@ class ProductController {
      */
     static async delete(request, response) {
         const {id: productId} = request.params;
-        const product = await Product.findOneAndDelete({_id: productId}, {new:true});
+        /**
+         * @type {import('mongoose').Document}
+         */
+        const product = await Product.findOne({_id: productId});
 
         if (!product) {
             throw new NotFound('Product not found or you are not the owner')
         }
+        await product.deleteOne();
         return response.status(StatusCodes.OK).json({
             msg: 'Product deleted successfully'
         })
+    }
+
+    /**
+     * Description
+     * @param {RequestType} request
+     * @param {ResponseType} response
+     * @returns {ResponseType}
+     */
+    static async product_reviews(request, response) {
+        const {id: productId} = request.params;
+        const reviews = await Review.find({product: productId});
+        return response.status(StatusCodes.OK).json({nbHits: reviews.length, reviews});
     }
 }
 
